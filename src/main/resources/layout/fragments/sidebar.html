@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<aside class="app-sidebar" id="appSidebar" th:fragment="sidebar">
+
+  <div class="sidebar-label">Quản trị</div>
+
+  <!-- Students -->
+   <div class="sidebar-label">Quản lý sinh viên</div>
+  
+      <a class="sidebar-link"
+         th:href="@{/admin/students}"
+         th:classappend="${currentMenu == 'students'} ? ' active' : ''"
+         data-label="Sinh viên">
+        <i class="bi bi-mortarboard-fill nav-icon"></i>
+        <span class="nav-text">Sinh viên</span>
+      </a>
+
+
+</aside>
+</body>
+</html>
