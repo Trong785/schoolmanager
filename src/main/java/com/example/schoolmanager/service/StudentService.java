@@ -1,13 +1,14 @@
 package com.example.schoolmanager.service;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import com.example.schoolmanager.model.Student;
 import com.example.schoolmanager.respository.StudentRepository;
-import java.util.UUID;
 
 @Service
 public class StudentService {
@@ -36,6 +37,7 @@ public class StudentService {
 
         old.setName(student.getName());
         old.setEmail(student.getEmail());
+        old.setGender(student.getGender());
 
         return repo.save(old);
     }
@@ -51,5 +53,14 @@ public class StudentService {
             return repo.findAll(pageable);
         }
         return repo.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(k, k, pageable);
+    }
+
+    public Page<Student> searchByName(String name, int page, int size) {
+        String n = (name == null) ? "" : name.trim();
+        Pageable pageable = PageRequest.of(page, size);
+        if (n.isEmpty()) {
+            return repo.findAll(pageable);
+        }
+        return repo.findByNameContainingIgnoreCase(n, pageable);
     }
 }

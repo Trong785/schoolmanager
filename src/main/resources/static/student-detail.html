@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Chi tiết sinh viên | School Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+      crossorigin="anonymous"
+      media="print"
+      onload="this.media='all'"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./adminlte/css/adminlte.css" />
+    <link rel="stylesheet" href="./custom-theme.css" />
+  </head>
+  <body class="layout-fixed sidebar-expand-lg sidebar-open">
+    <div class="app-wrapper">
+      <nav class="app-header navbar navbar-expand">
+        <div class="container-fluid">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                <i class="bi bi-list"></i>
+              </a>
+            </li>
+            <li class="nav-item d-none d-md-block">
+              <span class="nav-link fw-semibold">Chi tiết sinh viên</span>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+                <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+                <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <div class="sidebar-brand">
+          <a href="./index.html" class="brand-link">
+            <img
+              src="./adminlte/assets/img/AdminLTELogo.png"
+              alt="AdminLTE Logo"
+              class="brand-image opacity-75 shadow"
+            />
+            <span class="brand-text fw-light">School Manager</span>
+          </a>
+        </div>
+        <div class="sidebar-wrapper">
+          <nav class="mt-2">
+            <ul
+              class="nav sidebar-menu flex-column"
+              data-lte-toggle="treeview"
+              role="navigation"
+              aria-label="Main navigation"
+              data-accordion="false"
+            >
+              <li class="nav-item">
+                <a href="./index.html" class="nav-link">
+                  <i class="nav-icon bi bi-people-fill"></i>
+                  <p>Sinh viên</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./search-student.html" class="nav-link">
+                  <i class="nav-icon bi bi-search"></i>
+                  <p>Tìm sinh viên theo tên</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="app-main">
+        <div class="app-content-header">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="mb-0">Chi tiết sinh viên</h3>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="./index.html">Danh sách</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Chi tiết</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="app-content">
+          <div class="container-fluid">
+            <div id="loadingCard" class="card mb-3">
+              <div class="card-body text-center">
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Đang tải...</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="detailCard" class="card" style="display: none;">
+              <div class="card-header">
+                <h3 class="card-title" id="studentTitle">Chi tiết sinh viên</h3>
+              </div>
+              <div class="card-body">
+                <div class="row mb-4">
+                  <div class="col-md-6">
+                    <div class="form-group mb-3">
+                      <label class="form-label fw-bold">Mã ID</label>
+                      <p class="form-control-plaintext" id="studentId"></p>
+                    </div>
+                    <div class="form-group mb-3">
+                      <label class="form-label fw-bold">Tên sinh viên</label>
+                      <p class="form-control-plaintext" id="studentName" style="font-size: 1.2rem; color: #007bff;"></p>
+                    </div>
+                    <div class="form-group mb-3">
+                      <label class="form-label fw-bold">Email</label>
+                      <p class="form-control-plaintext">
+                        <a href="mailto:" id="studentEmail"></a>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group mb-3">
+                      <label class="form-label fw-bold">Giới tính</label>
+                      <p class="form-control-plaintext">
+                        <span id="studentGender" class="badge bg-success" style="font-size: 1rem; padding: 0.5rem 1rem;"></span>
+                      </p>
+                    </div>
+                    <div class="form-group mb-3">
+                      <label class="form-label fw-bold">Ngày thêm</label>
+                      <p class="form-control-plaintext" id="studentCreatedDate"></p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card bg-light" style="border: none;">
+                  <div class="card-body">
+                    <h5 class="card-title mb-3">Thông tin khác</h5>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>ID có định dạng:</strong> <code id="studentIdCode"></code></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <a href="./index.html" class="btn btn-secondary">
+                  <i class="bi bi-arrow-left me-2"></i>Quay lại danh sách
+                </a>
+                <button id="btnEdit" class="btn btn-primary">
+                  <i class="bi bi-pencil me-2"></i>Chỉnh sửa
+                </button>
+                <button id="btnDelete" class="btn btn-danger">
+                  <i class="bi bi-trash me-2"></i>Xóa
+                </button>
+              </div>
+            </div>
+
+            <div id="errorCard" class="card border-danger" style="display: none;">
+              <div class="card-body text-danger">
+                <i class="bi bi-exclamation-circle me-2"></i>
+                <span id="errorMessage"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="app-footer">
+        <div class="float-end d-none d-sm-inline">School Manager</div>
+        <strong>Quản lý sinh viên với AdminLTE 4</strong>
+      </footer>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Chỉnh sửa sinh viên</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Tên</label>
+              <input type="text" id="editName" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" id="editEmail" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Giới tính</label>
+              <select id="editGender" class="form-control">
+                <option value="">-- Chọn giới tính --</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+                <option value="Khác">Khác</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" id="btnSaveEdit" class="btn btn-primary">Lưu thay đổi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./adminlte/js/adminlte.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const API_BASE = '/api/students';
+        const loadingCard = document.getElementById('loadingCard');
+        const detailCard = document.getElementById('detailCard');
+        const errorCard = document.getElementById('errorCard');
+        const errorMessage = document.getElementById('errorMessage');
+
+        let currentStudentId = null;
+        let editModal = null;
+
+        // Get ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const studentId = urlParams.get('id');
+
+        if (!studentId) {
+          showError('Không tìm thấy ID sinh viên');
+          return;
+        }
+
+        currentStudentId = studentId;
+
+        // Initialize edit modal
+        const editModalEl = document.getElementById('editModal');
+        if (editModalEl && window.bootstrap) {
+          editModal = new window.bootstrap.Modal(editModalEl);
+        }
+
+        // Load student details
+        async function loadStudentDetail() {
+          try {
+            const res = await fetch(API_BASE + '/' + studentId);
+            if (!res.ok) {
+              throw new Error('Không tày được thông tin sinh viên');
+            }
+            const student = await res.json();
+            displayStudent(student);
+          } catch (e) {
+            console.error('Lỗi tải chi tiết sinh viên', e);
+            showError('Lỗi tải chi tiết sinh viên: ' + e.message);
+          }
+        }
+
+        function displayStudent(student) {
+          document.getElementById('studentId').textContent = student.id || 'N/A';
+          document.getElementById('studentIdCode').textContent = student.id || 'N/A';
+          document.getElementById('studentName').textContent = student.name || 'Chưa cập nhật';
+          const emailEl = document.getElementById('studentEmail');
+          emailEl.href = 'mailto:' + (student.email || '');
+          emailEl.textContent = student.email || 'Chưa cập nhật';
+          
+          const genderEl = document.getElementById('studentGender');
+          genderEl.textContent = student.gender || 'Chưa cập nhật';
+          genderEl.className = 'badge ' + getGenderColor(student.gender);
+          
+          document.getElementById('studentCreatedDate').textContent = new Date().toLocaleDateString('vi-VN');
+          document.getElementById('studentTitle').textContent = 'Chi tiết - ' + (student.name || 'Sinh viên');
+
+          // Set values for edit modal
+          document.getElementById('editName').value = student.name || '';
+          document.getElementById('editEmail').value = student.email || '';
+          document.getElementById('editGender').value = student.gender || '';
+
+          loadingCard.style.display = 'none';
+          detailCard.style.display = 'block';
+          errorCard.style.display = 'none';
+        }
+
+        function getGenderColor(gender) {
+          switch (gender) {
+            case 'Nam':
+              return 'bg-primary';
+            case 'Nữ':
+              return 'bg-danger';
+            case 'Khác':
+              return 'bg-warning';
+            default:
+              return 'bg-secondary';
+          }
+        }
+
+        function showError(msg) {
+          errorMessage.textContent = msg;
+          loadingCard.style.display = 'none';
+          detailCard.style.display = 'none';
+          errorCard.style.display = 'block';
+        }
+
+        // Edit button
+        document.getElementById('btnEdit').addEventListener('click', function () {
+          if (editModal) {
+            editModal.show();
+          }
+        });
+
+        // Save edit
+        document.getElementById('btnSaveEdit').addEventListener('click', async function () {
+          const name = document.getElementById('editName').value.trim();
+          const email = document.getElementById('editEmail').value.trim();
+          const gender = document.getElementById('editGender').value.trim();
+
+          if (!name || !email || !gender) {
+            alert('Vui lòng nhập đầy đủ thông tin');
+            return;
+          }
+
+          try {
+            const res = await fetch(API_BASE + '/' + currentStudentId, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name, email, gender }),
+            });
+            if (!res.ok) {
+              throw new Error('Lỗi cập nhật');
+            }
+            const updated = await res.json();
+            displayStudent(updated);
+            if (editModal) {
+              editModal.hide();
+            }
+            alert('Cập nhật thành công');
+          } catch (e) {
+            console.error('Lỗi:', e);
+            alert('Lỗi cập nhật sinh viên');
+          }
+        });
+
+        // Delete button
+        document.getElementById('btnDelete').addEventListener('click', function () {
+          if (confirm('Bạn có chắc chắn muốn xóa sinh viên này?')) {
+            deleteStudent();
+          }
+        });
+
+        async function deleteStudent() {
+          try {
+            const res = await fetch(API_BASE + '/' + currentStudentId, {
+              method: 'DELETE',
+            });
+            if (!res.ok) {
+              throw new Error('Lỗi xóa');
+            }
+            alert('Xóa thành công');
+            window.location.href = './index.html';
+          } catch (e) {
+            console.error('Lỗi:', e);
+            alert('Lỗi xóa sinh viên');
+          }
+        }
+
+        // Sidebar scrollbar
+        const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+        const Default = {
+          scrollbarTheme: 'os-theme-light',
+          scrollbarAutoHide: 'leave',
+          scrollbarClickScroll: true,
+        };
+        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+        if (sidebarWrapper && window.OverlayScrollbarsGlobal && window.OverlayScrollbarsGlobal.OverlayScrollbars) {
+          window.OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+            scrollbars: {
+              theme: Default.scrollbarTheme,
+              autoHide: Default.scrollbarAutoHide,
+              clickScroll: Default.scrollbarClickScroll,
+            },
+          });
+        }
+
+        // Load on page load
+        loadStudentDetail();
+      });
+    </script>
+  </body>
+</html>

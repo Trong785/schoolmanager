@@ -2,7 +2,7 @@
 <html lang="vi">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Quản lý sinh viên | AdminLTE 4</title>
+    <title>Quản lý Sinh Viên | School Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
@@ -26,10 +26,11 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./adminlte/css/adminlte.css" />
+    <link rel="stylesheet" href="./custom-theme.css" />
   </head>
-  <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
+  <body class="layout-fixed sidebar-expand-lg sidebar-open">
     <div class="app-wrapper">
-      <nav class="app-header navbar navbar-expand bg-body">
+      <nav class="app-header navbar navbar-expand">
         <div class="container-fluid">
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -38,7 +39,7 @@
               </a>
             </li>
             <li class="nav-item d-none d-md-block">
-              <span class="nav-link fw-semibold">Quản lý sinh viên</span>
+              <span class="nav-link fw-semibold">Quản lý Sinh Viên</span>
             </li>
           </ul>
           <ul class="navbar-nav ms-auto">
@@ -88,12 +89,12 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-sm-6">
-                <h3 class="mb-0">Quản lý sinh viên</h3>
+                <h3 class="mb-0">Quản lý Sinh Viên</h3>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Students</li>
+                  <li class="breadcrumb-item"><a href="./index.html">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Danh sách sinh viên</li>
                 </ol>
               </div>
             </div>
@@ -102,38 +103,57 @@
 
         <div class="app-content">
           <div class="container-fluid">
-            <div class="card">
+            <!-- Main Card -->
+            <div class="card mb-4">
               <div class="card-header d-flex flex-wrap gap-2 align-items-center">
-                <h3 class="card-title mb-0">Danh sách sinh viên</h3>
-                <div class="ms-auto d-flex flex-wrap gap-2">
-                  <div class="input-group input-group-sm" style="width: 260px">
-                    <span class="input-group-text"><i class="bi bi-search"></i></span>
-                    <input
-                      type="text"
-                      id="searchInput"
-                      class="form-control"
-                      placeholder="Tìm gần đúng theo tên/email..."
-                    />
-                  </div>
-                  <button class="btn btn-primary btn-sm" id="btnAdd">
-                    <i class="bi bi-plus-circle me-1"></i> Thêm sinh viên
+                <h3 class="card-title mb-0">Danh Sách Sinh Viên</h3>
+                <button class="btn btn-primary ms-auto" id="btnAddStudent">
+                  <i class="bi bi-plus-lg me-1"></i>Thêm Sinh Viên
+                </button>
+              </div>
+
+              <!-- Search Section -->
+              <div class="card-body border-bottom">
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-search"></i>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="searchInput"
+                    placeholder="Tìm kiếm theo tên hoặc email..."
+                  />
+                  <button class="btn btn-secondary" id="btnClearSearch">
+                    <i class="bi bi-x-circle"></i>
                   </button>
                 </div>
               </div>
+
+              <!-- Table -->
               <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap mb-0">
+                <table class="table table-hover mb-0">
                   <thead>
                     <tr>
-                      <th style="width: 40%">Tên</th>
-                      <th style="width: 40%">Email</th>
-                      <th style="width: 20%" class="text-end">Hành động</th>
+                      <th style="width: 30%;">Tên</th>
+                      <th style="width: 30%;">Email</th>
+                      <th style="width: 15%;">Giới Tính</th>
+                      <th style="width: 25%;" class="text-end">Hành Động</th>
                     </tr>
                   </thead>
-                  <tbody id="studentTableBody"></tbody>
+                  <tbody id="studentTableBody">
+                    <tr>
+                      <td colspan="4" class="text-center text-muted py-4">
+                        <i class="bi bi-inbox"></i><br>Chưa có dữ liệu. Nhấp <strong>Thêm Sinh Viên</strong> để bắt đầu.
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
+
+              <!-- Footer with pagination and info -->
               <div class="card-footer d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <div class="small text-secondary" id="paginationInfo"></div>
+                <div class="small text-secondary" id="statsInfo">0 sinh viên</div>
                 <nav>
                   <ul class="pagination pagination-sm mb-0" id="pagination"></ul>
                 </nav>
@@ -145,36 +165,77 @@
 
       <footer class="app-footer">
         <div class="float-end d-none d-sm-inline">School Manager</div>
-        <strong>Quản lý sinh viên với AdminLTE 4</strong>
+        <strong>Quản lý sinh viên với Hằng Lê</strong>
       </footer>
     </div>
 
-    <div class="modal fade" id="studentModal" tabindex="-1" aria-hidden="true">
+    <!-- Add/Edit Modal -->
+    <div
+      class="modal fade"
+      id="studentModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="studentModalTitle">Thêm sinh viên</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="modalTitle">Thêm Sinh Viên</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <input type="hidden" id="studentId" />
             <div class="mb-3">
-              <label class="form-label">Tên</label>
-              <input type="text" id="studentName" class="form-control" />
+              <label for="studentName" class="form-label">Tên Sinh Viên</label>
+              <input
+                type="text"
+                class="form-control"
+                id="studentName"
+                placeholder="Nhập tên sinh viên"
+                required
+              />
             </div>
             <div class="mb-3">
-              <label class="form-label">Email</label>
-              <input type="email" id="studentEmail" class="form-control" />
+              <label for="studentEmail" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="studentEmail"
+                placeholder="Nhập email"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="studentGender" class="form-label">Giới Tính</label>
+              <select class="form-control" id="studentGender" required>
+                <option value="">-- Chọn Giới Tính --</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+                <option value="Khác">Khác</option>
+              </select>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn btn-primary" id="btnSaveStudent">Lưu</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Hủy
+            </button>
+            <button type="button" class="btn btn-primary" id="btnSaveStudent">
+              Lưu
+            </button>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Scripts -->
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
       crossorigin="anonymous"
@@ -188,266 +249,301 @@
       crossorigin="anonymous"
     ></script>
     <script src="./adminlte/js/adminlte.js"></script>
-
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const API_BASE = '/api/students';
         const PAGE_SIZE = 5;
 
-        let currentPage = 0; // 0-based theo backend
+        // DOM Elements
+        const btnAddStudent = document.getElementById('btnAddStudent');
+        const btnSaveStudent = document.getElementById('btnSaveStudent');
+        const btnClearSearch = document.getElementById('btnClearSearch');
+        const searchInput = document.getElementById('searchInput');
+        const studentTableBody = document.getElementById('studentTableBody');
+        const pagination = document.getElementById('pagination');
+        const statsInfo = document.getElementById('statsInfo');
+        const modalTitle = document.getElementById('modalTitle');
+        const studentId = document.getElementById('studentId');
+        const studentName = document.getElementById('studentName');
+        const studentEmail = document.getElementById('studentEmail');
+        const studentGender = document.getElementById('studentGender');
+
+        let studentModal = new bootstrap.Modal(document.getElementById('studentModal'));
+        let currentPage = 0;
         let totalPages = 0;
         let totalElements = 0;
+        let isEditMode = false;
 
-        const tableBody = document.getElementById('studentTableBody');
-        const pagination = document.getElementById('pagination');
-        const paginationInfo = document.getElementById('paginationInfo');
-        const searchInput = document.getElementById('searchInput');
-
-        const studentModalEl = document.getElementById('studentModal');
-        const studentModalTitle = document.getElementById('studentModalTitle');
-        const studentIdInput = document.getElementById('studentId');
-        const studentNameInput = document.getElementById('studentName');
-        const studentEmailInput = document.getElementById('studentEmail');
-        const btnSaveStudent = document.getElementById('btnSaveStudent');
-        const btnAdd = document.getElementById('btnAdd');
-
-        var studentModal = null;
-        if (window.bootstrap && studentModalEl) {
-          studentModal = new window.bootstrap.Modal(studentModalEl);
-        }
-
-        function highlightText(text, term) {
-          if (!term) return text;
-          const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-          const re = new RegExp(escaped, 'ig');
-          return text.replace(re, function (m) {
-            return '<mark>' + m + '</mark>';
-          });
+        // Load students
+        async function loadStudents() {
+          try {
+            const keyword = searchInput.value.trim();
+            let url = `${API_BASE}`;
+            
+            if (keyword) {
+              url = `${API_BASE}/search?keyword=${encodeURIComponent(keyword)}&page=${currentPage}&size=${PAGE_SIZE}`;
+            } else {
+              console.log('Đang tải danh sách tất cả sinh viên...');
+              const response = await fetch(url);
+              
+              if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Load students error:', response.status, errorText);
+                throw new Error(`HTTP ${response.status}: ${errorText || 'Lỗi khi tải dữ liệu'}`);
+              }
+              
+              const allStudents = await response.json();
+              console.log('Students loaded:', allStudents.length);
+              renderTable(allStudents);
+              statsInfo.textContent = allStudents.length + ' sinh viên';
+              return;
+            }
+            
+            console.log('Đang tìm kiếm sinh viên với từ khóa:', keyword);
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+              const errorText = await response.text();
+              console.error('Search students error:', response.status, errorText);
+              throw new Error(`HTTP ${response.status}: ${errorText || 'Lỗi khi tìm kiếm'}`);
+            }
+            
+            const data = await response.json();
+            console.log('Search results:', data);
+            totalPages = data.totalPages || 0;
+            totalElements = data.totalElements || 0;
+            renderTable(data.content || []);
+            statsInfo.textContent = `${totalElements} sinh viên (trang ${currentPage + 1}/${totalPages})`;
+          } catch (error) {
+            console.error('Chi tiết lỗi tải dữ liệu:', error);
+            alert('Lỗi: ' + error.message);
+          }
         }
 
         function renderTable(students) {
-          const term = searchInput.value.trim();
-          tableBody.innerHTML = students
-            .map(function (s) {
-              return (
-                '<tr>' +
-                '<td>' +
-                highlightText(s.name || '', term) +
-                '</td>' +
-                '<td>' +
-                highlightText(s.email || '', term) +
-                '</td>' +
-                '<td class="text-end">' +
-                '<button class="btn btn-sm btn-outline-secondary me-1" data-id="' +
-                s.id +
-                '" data-action="edit">' +
-                '<i class="bi bi-pencil"></i>' +
-                '</button>' +
-                '<button class="btn btn-sm btn-outline-danger" data-id="' +
-                s.id +
-                '" data-action="delete">' +
-                '<i class="bi bi-trash"></i>' +
-                '</button>' +
-                '</td>' +
-                '</tr>'
-              );
-            })
-            .join('');
-
-          const from = totalElements === 0 ? 0 : currentPage * PAGE_SIZE + 1;
-          const to = Math.min((currentPage + 1) * PAGE_SIZE, totalElements);
-          paginationInfo.textContent =
-            'Hiển thị ' + from + '-' + to + ' trên tổng ' + totalElements + ' sinh viên';
-
-          renderPagination();
-        }
-
-        function renderPagination() {
-          if (totalPages === 0) {
+          if (students.length === 0) {
+            studentTableBody.innerHTML = `
+              <tr>
+                <td colspan="4" class="text-center text-muted py-4">
+                  <i class="bi bi-search"></i><br>Không tìm thấy sinh viên nào
+                </td>
+              </tr>
+            `;
             pagination.innerHTML = '';
             return;
           }
 
-          var html = '';
-          html +=
-            '<li class="page-item ' +
-            (currentPage === 0 ? 'disabled' : '') +
-            '"><a class="page-link" href="#" data-page="' +
-            (currentPage - 1) +
-            '">&laquo;</a></li>';
+          studentTableBody.innerHTML = students.map(student => `
+            <tr>
+              <td>
+                <a href="./student-detail.html?id=${student.id}" style="cursor: pointer; color: #007bff; text-decoration: underline;">
+                  ${student.name || 'N/A'}
+                </a>
+              </td>
+              <td>${student.email || 'N/A'}</td>
+              <td>
+                <span class="badge ${getGenderColor(student.gender)}">
+                  ${student.gender || 'Chưa cập nhật'}
+                </span>
+              </td>
+              <td class="text-end">
+                <a class="btn btn-sm btn-outline-primary me-1" onclick="event.stopPropagation(); editStudent('${student.id}')" title="Chỉnh sửa">
+                  <i class="bi bi-pencil-square"></i> Sửa
+                </a>
+                <a class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteStudent('${student.id}')" title="Xóa">
+                  <i class="bi bi-trash"></i> Xóa
+                </a>
+              </td>
+            </tr>
+          `).join('');
 
-          for (var i = 0; i < totalPages; i++) {
-            html +=
-              '<li class="page-item ' +
-              (i === currentPage ? 'active' : '') +
-              '"><a class="page-link" href="#" data-page="' +
-              i +
-              '">' +
-              (i + 1) +
-              '</a></li>';
+          if (searchInput.value.trim()) {
+            renderPagination();
+          } else {
+            pagination.innerHTML = '';
+          }
+        }
+
+        function getGenderColor(gender) {
+          switch (gender) {
+            case 'Nam':
+              return 'bg-primary';
+            case 'Nữ':
+              return 'bg-danger';
+            default:
+              return 'bg-warning';
+          }
+        }
+
+        function renderPagination() {
+          if (totalPages <= 1) {
+            pagination.innerHTML = '';
+            return;
           }
 
-          html +=
-            '<li class="page-item ' +
-            (currentPage === totalPages - 1 ? 'disabled' : '') +
-            '"><a class="page-link" href="#" data-page="' +
-            (currentPage + 1) +
-            '">&raquo;</a></li>';
+          let html = '';
+          html += `<li class="page-item ${currentPage === 0 ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="changePage(event, ${currentPage - 1})">&laquo;</a>
+          </li>`;
+
+          for (let i = 0; i < totalPages; i++) {
+            html += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+              <a class="page-link" href="#" onclick="changePage(event, ${i})">${i + 1}</a>
+            </li>`;
+          }
+
+          html += `<li class="page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="changePage(event, ${currentPage + 1})">&raquo;</a>
+          </li>`;
 
           pagination.innerHTML = html;
         }
 
-        pagination.addEventListener('click', function (e) {
-          if (e.target.tagName !== 'A') return;
-          e.preventDefault();
-          const page = Number(e.target.getAttribute('data-page'));
-          if (isNaN(page) || page === currentPage || page < 0 || page >= totalPages) return;
-          currentPage = page;
-          loadStudents();
+        window.changePage = function (event, page) {
+          event.preventDefault();
+          if (page >= 0 && page < totalPages) {
+            currentPage = page;
+            loadStudents();
+          }
+        };
+
+        // Add student
+        btnAddStudent.addEventListener('click', function () {
+          isEditMode = false;
+          modalTitle.textContent = 'Thêm Sinh Viên';
+          studentId.value = '';
+          studentName.value = '';
+          studentEmail.value = '';
+          studentGender.value = '';
+          studentModal.show();
         });
+
+        // Save student
+        btnSaveStudent.addEventListener('click', async function () {
+          const name = studentName.value.trim();
+          const email = studentEmail.value.trim();
+          const gender = studentGender.value.trim();
+
+          if (!name || !email || !gender) {
+            alert('Vui lòng điền đầy đủ thông tin');
+            return;
+          }
+
+          try {
+            const data = { name, email, gender };
+            let response;
+
+            if (isEditMode) {
+              response = await fetch(`${API_BASE}/update/${studentId.value}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+              });
+            } else {
+              response = await fetch(API_BASE, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+              });
+            }
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              console.error('Server error:', response.status, errorText);
+              throw new Error(`HTTP ${response.status}: ${errorText || 'Lỗi từ server'}`);
+            }
+
+            const result = await response.json();
+            console.log('Save result:', result);
+            
+            studentModal.hide();
+            currentPage = 0;
+            searchInput.value = '';
+            loadStudents();
+            alert(isEditMode ? 'Cập nhật thành công!' : 'Thêm sinh viên thành công!');
+          } catch (error) {
+            console.error('Chi tiết lỗi lưu dữ liệu:', error);
+            alert('Lỗi: ' + error.message);
+          }
+        });
+
+        // Edit student
+        window.editStudent = async function (id) {
+          try {
+            console.log('Đang tải dữ liệu sinh viên ID:', id);
+            
+            const response = await fetch(`${API_BASE}/${id}`);
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              console.error('Fetch student error:', response.status, errorText);
+              throw new Error(`HTTP ${response.status}: ${errorText || 'Lỗi khi tải dữ liệu'}`);
+            }
+
+            const student = await response.json();
+            console.log('Student data loaded:', student);
+
+            isEditMode = true;
+            modalTitle.textContent = 'Cập Nhật Sinh Viên';
+            studentId.value = student.id;
+            studentName.value = student.name || '';
+            studentEmail.value = student.email || '';
+            studentGender.value = student.gender || 'Nam';
+            studentModal.show();
+          } catch (error) {
+            console.error('Chi tiết lỗi tải dữ liệu sinh viên:', error);
+            alert('Lỗi: ' + error.message);
+          }
+        };
+
+        // Delete student
+        window.deleteStudent = async function (id) {
+          if (!confirm('Bạn chắc chắn muốn xóa sinh viên này?')) {
+            return;
+          }
+
+          try {
+            console.log('Đang xóa sinh viên ID:', id);
+            
+            const response = await fetch(`${API_BASE}/delete/${id}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+            });
+
+            console.log('Response status:', response.status);
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              console.error('Delete error:', response.status, errorText);
+              throw new Error(`HTTP ${response.status}: ${errorText || 'Lỗi khi xóa'}`);
+            }
+
+            const result = await response.json();
+            console.log('Delete result:', result);
+
+            currentPage = 0;
+            searchInput.value = '';
+            await loadStudents();
+            alert('Xóa sinh viên thành công!');
+          } catch (error) {
+            console.error('Chi tiết lỗi xóa dữ liệu:', error);
+            alert('Lỗi: ' + error.message);
+          }
+        };
+
+        // Search functionality
         searchInput.addEventListener('input', function () {
           currentPage = 0;
           loadStudents();
         });
 
-        async function loadStudents() {
-          try {
-            const params =
-              '?keyword=' +
-              encodeURIComponent(searchInput.value || '') +
-              '&page=' +
-              currentPage +
-              '&size=' +
-              PAGE_SIZE;
-            const res = await fetch(API_BASE + '/search' + params);
-            const data = await res.json();
-            const students = Array.isArray(data.content) ? data.content : [];
-            totalPages = typeof data.totalPages === 'number' ? data.totalPages : 0;
-            totalElements = typeof data.totalElements === 'number' ? data.totalElements : students.length;
-            renderTable(students);
-          } catch (e) {
-            console.error('Lỗi tải danh sách sinh viên', e);
-          }
-        }
-
-        function openAddModal() {
-          if (!studentModal) return;
-          studentIdInput.value = '';
-          studentNameInput.value = '';
-          studentEmailInput.value = '';
-          studentModalTitle.textContent = 'Thêm sinh viên';
-          btnSaveStudent.dataset.mode = 'create';
-          studentModal.show();
-        }
-
-        function openEditModal(student) {
-          if (!studentModal) return;
-          studentIdInput.value = student.id;
-          studentNameInput.value = student.name || '';
-          studentEmailInput.value = student.email || '';
-          studentModalTitle.textContent = 'Cập nhật sinh viên';
-          btnSaveStudent.dataset.mode = 'update';
-          studentModal.show();
-        }
-
-        btnAdd.addEventListener('click', function () {
-          openAddModal();
+        btnClearSearch.addEventListener('click', function () {
+          searchInput.value = '';
+          currentPage = 0;
+          loadStudents();
         });
 
-        tableBody.addEventListener('click', function (e) {
-          const btn = e.target.closest('button[data-action]');
-          if (!btn) return;
-          const id = btn.getAttribute('data-id');
-          const action = btn.getAttribute('data-action');
-          if (action === 'edit') {
-            // Lấy chi tiết sinh viên từ API để luôn dữ liệu mới nhất
-            fetch(API_BASE + '/' + id)
-              .then(function (res) {
-                return res.json();
-              })
-              .then(function (student) {
-                openEditModal(student || {});
-              })
-              .catch(function () {
-                alert('Không tải được thông tin sinh viên.');
-              });
-          } else if (action === 'delete') {
-            if (confirm('Bạn có chắc chắn muốn xóa sinh viên này?')) {
-              deleteStudent(id);
-            }
-          }
-        });
-
-        async function saveStudent() {
-          const mode = btnSaveStudent.dataset.mode;
-          const name = studentNameInput.value.trim();
-          const email = studentEmailInput.value.trim();
-
-          if (!name || !email) {
-            alert('Vui lòng nhập đầy đủ tên và email.');
-            return;
-          }
-
-          const payload = { name: name, email: email };
-          const isUpdate = mode === 'update';
-          const id = studentIdInput.value;
-
-          const url = isUpdate ? API_BASE + '/' + id : API_BASE;
-          const method = isUpdate ? 'PUT' : 'POST';
-
-          try {
-            const res = await fetch(url, {
-              method: method,
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload),
-            });
-            if (!res.ok) {
-              throw new Error(await res.text());
-            }
-            if (studentModal) {
-              studentModal.hide();
-            }
-            await loadStudents();
-          } catch (e) {
-            console.error('Lỗi lưu sinh viên', e);
-            alert('Có lỗi xảy ra khi lưu sinh viên.');
-          }
-        }
-
-        btnSaveStudent.addEventListener('click', function () {
-          saveStudent();
-        });
-
-        async function deleteStudent(id) {
-          try {
-            const res = await fetch(API_BASE + '/' + id, { method: 'DELETE' });
-            if (!res.ok) {
-              throw new Error(await res.text());
-            }
-            await loadStudents();
-          } catch (e) {
-            console.error('Lỗi xóa sinh viên', e);
-            alert('Có lỗi xảy ra khi xóa sinh viên.');
-          }
-        }
-
-        const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-        const Default = {
-          scrollbarTheme: 'os-theme-light',
-          scrollbarAutoHide: 'leave',
-          scrollbarClickScroll: true,
-        };
-        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
-        if (sidebarWrapper && window.OverlayScrollbarsGlobal && window.OverlayScrollbarsGlobal.OverlayScrollbars) {
-          window.OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-            scrollbars: {
-              theme: Default.scrollbarTheme,
-              autoHide: Default.scrollbarAutoHide,
-              clickScroll: Default.scrollbarClickScroll,
-            },
-          });
-        }
-
+        // Load initial data
         loadStudents();
       });
     </script>

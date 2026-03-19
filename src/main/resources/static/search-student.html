@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tìm sinh viên theo tên | School Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+      crossorigin="anonymous"
+      media="print"
+      onload="this.media='all'"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./adminlte/css/adminlte.css" />
+    <link rel="stylesheet" href="./custom-theme.css" />
+  </head>
+  <body class="layout-fixed sidebar-expand-lg sidebar-open">
+    <div class="app-wrapper">
+      <nav class="app-header navbar navbar-expand">
+        <div class="container-fluid">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                <i class="bi bi-list"></i>
+              </a>
+            </li>
+            <li class="nav-item d-none d-md-block">
+              <span class="nav-link fw-semibold">Tìm sinh viên theo tên</span>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+                <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+                <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <div class="sidebar-brand">
+          <a href="./index.html" class="brand-link">
+            <img
+              src="./adminlte/assets/img/AdminLTELogo.png"
+              alt="AdminLTE Logo"
+              class="brand-image opacity-75 shadow"
+            />
+            <span class="brand-text fw-light">School Manager</span>
+          </a>
+        </div>
+        <div class="sidebar-wrapper">
+          <nav class="mt-2">
+            <ul
+              class="nav sidebar-menu flex-column"
+              data-lte-toggle="treeview"
+              role="navigation"
+              aria-label="Main navigation"
+              data-accordion="false"
+            >
+              <li class="nav-item">
+                <a href="./index.html" class="nav-link">
+                  <i class="nav-icon bi bi-people-fill"></i>
+                  <p>Sinh viên</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./search-student.html" class="nav-link active">
+                  <i class="nav-icon bi bi-search"></i>
+                  <p>Tìm sinh viên theo tên</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="app-main">
+        <div class="app-content-header">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="mb-0">Tìm sinh viên theo tên</h3>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="./index.html">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Tìm kiếm theo tên</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="app-content">
+          <div class="container-fluid">
+            <!-- Search Card -->
+            <div class="card mb-4">
+              <div class="card-header">
+                <h3 class="card-title">Nhập tên sinh viên</h3>
+              </div>
+              <div class="card-body">
+                <div class="input-group input-group-lg">
+                  <span class="input-group-text"><i class="bi bi-search"></i></span>
+                  <input
+                    type="text"
+                    id="searchNameInput"
+                    class="form-control"
+                    placeholder="Nhập tên sinh viên cần tìm..."
+                  />
+                  <button class="btn btn-primary" id="btnClearSearch" type="button">
+                    <i class="bi bi-x-circle me-1"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Results Card -->
+            <div class="card">
+              <div class="card-header d-flex flex-wrap gap-2 align-items-center">
+                <h3 class="card-title mb-0">Kết quả tìm kiếm</h3>
+                <div class="ms-auto">
+                  <small class="text-secondary" id="resultCount"></small>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th style="width: 30%">Tên</th>
+                      <th style="width: 30%">Email</th>
+                      <th style="width: 15%">Giới tính</th>
+                      <th style="width: 25%" class="text-end">Hành động</th>
+                    </tr>
+                  </thead>
+                  <tbody id="resultTableBody">
+                    <tr>
+                      <td colspan="4" class="text-center text-muted py-4">
+                        Nhập tên sinh viên để bắt đầu tìm kiếm
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <div class="small text-secondary" id="paginationInfo"></div>
+                <nav>
+                  <ul class="pagination pagination-sm mb-0" id="resultPagination"></ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="app-footer">
+        <div class="float-end d-none d-sm-inline">School Manager</div>
+        <strong>Quản lý sinh viên với AdminLTE 4</strong>
+      </footer>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./adminlte/js/adminlte.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const API_BASE = '/api/students';
+        const PAGE_SIZE = 5;
+
+        const searchInput = document.getElementById('searchNameInput');
+        const btnClear = document.getElementById('btnClearSearch');
+        const tableBody = document.getElementById('resultTableBody');
+        const pagination = document.getElementById('resultPagination');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const resultCount = document.getElementById('resultCount');
+
+        let currentPage = 0;
+        let totalPages = 0;
+        let totalElements = 0;
+        let currentSearchTerm = '';
+
+        function highlightText(text, term) {
+          if (!term) return text;
+          const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const re = new RegExp(escaped, 'ig');
+          return text.replace(re, function (m) {
+            return '<mark style="background-color: #fff3cd; font-weight: bold;">' + m + '</mark>';
+          });
+        }
+
+        function renderTable(students) {
+          const term = currentSearchTerm.trim();
+          if (students.length === 0 && term) {
+            tableBody.innerHTML =
+              '<tr><td colspan="4" class="text-center text-muted py-4">Không tìm thấy sinh viên nào tên: <strong>' +
+              term +
+              '</strong></td></tr>';
+            resultCount.textContent = 'Không có kết quả';
+            pagination.innerHTML = '';
+            paginationInfo.textContent = '';
+            return;
+          }
+
+          tableBody.innerHTML = students
+            .map(function (s) {
+              return (
+                '<tr>' +
+                '<td>' +
+                highlightText(s.name || '', term) +
+                '</td>' +
+                '<td>' +
+                s.email || 'N/A' +
+                '</td>' +
+                '<td><span class="badge ' +
+                getGenderColor(s.gender) +
+                '">' +
+                (s.gender || 'Chưa cập nhật') +
+                '</span></td>' +
+                '<td class="text-end">' +
+                '<a href="./student-detail.html?id=' + s.id + '" class="btn btn-sm btn-outline-primary me-1" title="Xem chi tiết">' +
+                '<i class="bi bi-eye"></i></a>' +
+                '<a href="./index.html" class="btn btn-sm btn-outline-secondary me-1" title="Quay lại danh sách">' +
+                '<i class="bi bi-arrow-left"></i></a>' +
+                '</td>' +
+                '</tr>'
+              );
+            })
+            .join('');
+
+          const from = totalElements === 0 ? 0 : currentPage * PAGE_SIZE + 1;
+          const to = Math.min((currentPage + 1) * PAGE_SIZE, totalElements);
+          paginationInfo.textContent =
+            'Hiển thị ' + from + '-' + to + ' trên tổng ' + totalElements + ' kết quả';
+          resultCount.textContent = totalElements + ' sinh viên tìm thấy';
+
+          renderPagination();
+        }
+
+        function getGenderColor(gender) {
+          switch (gender) {
+            case 'Nam':
+              return 'bg-primary';
+            case 'Nữ':
+              return 'bg-danger';
+            case 'Khác':
+              return 'bg-warning';
+            default:
+              return 'bg-secondary';
+          }
+        }
+
+        function renderPagination() {
+          if (totalPages === 0) {
+            pagination.innerHTML = '';
+            return;
+          }
+
+          var html = '';
+          html +=
+            '<li class="page-item ' +
+            (currentPage === 0 ? 'disabled' : '') +
+            '"><a class="page-link" href="#" data-page="' +
+            (currentPage - 1) +
+            '">&laquo;</a></li>';
+
+          for (var i = 0; i < totalPages; i++) {
+            html +=
+              '<li class="page-item ' +
+              (i === currentPage ? 'active' : '') +
+              '"><a class="page-link" href="#" data-page="' +
+              i +
+              '">' +
+              (i + 1) +
+              '</a></li>';
+          }
+
+          html +=
+            '<li class="page-item ' +
+            (currentPage === totalPages - 1 ? 'disabled' : '') +
+            '"><a class="page-link" href="#" data-page="' +
+            (currentPage + 1) +
+            '">&raquo;</a></li>';
+
+          pagination.innerHTML = html;
+        }
+
+        pagination.addEventListener('click', function (e) {
+          if (e.target.tagName !== 'A') return;
+          e.preventDefault();
+          const page = Number(e.target.getAttribute('data-page'));
+          if (isNaN(page) || page === currentPage || page < 0 || page >= totalPages) return;
+          currentPage = page;
+          searchByName();
+        });
+
+        searchInput.addEventListener('input', function () {
+          currentPage = 0;
+          currentSearchTerm = this.value;
+          if (currentSearchTerm.trim().length > 0) {
+            searchByName();
+          } else {
+            tableBody.innerHTML =
+              '<tr><td colspan="4" class="text-center text-muted py-4">Nhập tên sinh viên để bắt đầu tìm kiếm</td></tr>';
+            resultCount.textContent = '';
+            pagination.innerHTML = '';
+            paginationInfo.textContent = '';
+          }
+        });
+
+        btnClear.addEventListener('click', function () {
+          searchInput.value = '';
+          currentSearchTerm = '';
+          currentPage = 0;
+          tableBody.innerHTML =
+            '<tr><td colspan="4" class="text-center text-muted py-4">Nhập tên sinh viên để bắt đầu tìm kiếm</td></tr>';
+          resultCount.textContent = '';
+          pagination.innerHTML = '';
+          paginationInfo.textContent = '';
+          searchInput.focus();
+        });
+
+        async function searchByName() {
+          const name = currentSearchTerm.trim();
+          if (!name) return;
+
+          try {
+            const params =
+              '?name=' +
+              encodeURIComponent(name) +
+              '&page=' +
+              currentPage +
+              '&size=' +
+              PAGE_SIZE;
+            const res = await fetch(API_BASE + '/search-by-name' + params);
+            const data = await res.json();
+            const students = Array.isArray(data.content) ? data.content : [];
+            totalPages = typeof data.totalPages === 'number' ? data.totalPages : 0;
+            totalElements = typeof data.totalElements === 'number' ? data.totalElements : students.length;
+            renderTable(students);
+          } catch (e) {
+            console.error('Lỗi tìm kiếm sinh viên', e);
+            tableBody.innerHTML =
+              '<tr><td colspan="4" class="text-center text-danger py-4"><i class="bi bi-exclamation-circle me-2"></i>Có lỗi khi tìm kiếm</td></tr>';
+          }
+        }
+
+        // Sidebar scrollbar
+        const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+        const Default = {
+          scrollbarTheme: 'os-theme-light',
+          scrollbarAutoHide: 'leave',
+          scrollbarClickScroll: true,
+        };
+        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+        if (sidebarWrapper && window.OverlayScrollbarsGlobal && window.OverlayScrollbarsGlobal.OverlayScrollbars) {
+          window.OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+            scrollbars: {
+              theme: Default.scrollbarTheme,
+              autoHide: Default.scrollbarAutoHide,
+              clickScroll: Default.scrollbarClickScroll,
+            },
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
