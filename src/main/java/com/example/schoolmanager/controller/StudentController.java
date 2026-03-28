@@ -1,104 +1,98 @@
 package com.example.schoolmanager.controller;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.schoolmanager.model.Student;
+import com.example.schoolmanager.entity.Student;
 import com.example.schoolmanager.service.StudentService;
 
 @RestController
 @RequestMapping("/api/students")
-@CrossOrigin // cho phép frontend gọi
+@CrossOrigin
 public class StudentController {
-    
+
     private final StudentService service;
 
     public StudentController(StudentService service) {
         this.service = service;
     }
 
-    // GET ALL
+    // ================== GET ALL ==================
     @GetMapping
     public List<Student> getAll() {
         return service.getAll();
     }
 
-    // GET BY ID
+    // ================== GET BY ID ==================
     @GetMapping("/{id}")
-    public Student getById(@PathVariable UUID id) {
+    public Student getById(@PathVariable int id) {
         return service.getById(id);
     }
 
-    // CREATE
+    // ================== CREATE ==================
     @PostMapping
     public Student create(@RequestBody Student student) {
         return service.create(student);
     }
 
-    // UPDATE
+    // ================== UPDATE ==================
     @PutMapping("/{id}")
-    public Student update(@PathVariable UUID id,
+    public Student update(@PathVariable int id,
                           @RequestBody Student student) {
         return service.update(id, student);
     }
 
-    // DELETE
+    // ================== DELETE ==================
     @DeleteMapping("/{id}")
-    public java.util.HashMap<String, Object> delete(@PathVariable UUID id) {
+    public HashMap<String, Object> delete(@PathVariable int id) {
         service.delete(id);
-        java.util.HashMap<String, Object> response = new java.util.HashMap<>();
-        response.put("success", true);
-        response.put("message", "Xóa thành công");
-        return response;
+
+        HashMap<String, Object> res = new HashMap<>();
+        res.put("success", true);
+        res.put("message", "Xóa thành công");
+
+        return res;
     }
 
-    // SEARCH + PHÂN TRANG (gần đúng theo tên/email)
+    // ================== SEARCH + PAGINATION ==================
     @GetMapping("/search")
     public Page<Student> search(
-            @RequestParam(name = "keyword", required = false) String keyword,
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "5") int size
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
     ) {
         return service.search(keyword, page, size);
     }
 
-    // SEARCH BY NAME (riêng biệt)
+    // ================== SEARCH BY NAME ==================
     @GetMapping("/search-by-name")
     public Page<Student> searchByName(
-            @RequestParam(name = "name", required = false) String name,
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "5") int size
+            @RequestParam(required = false) String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
     ) {
         return service.searchByName(name, page, size);
     }
 
-    // UPDATE VIA POST (Yêu cầu 6)
+    // ================== UPDATE VIA POST ==================
     @PostMapping("/update/{id}")
-    public Student updateViaPost(@PathVariable UUID id,
-                                 @RequestBody Student student) {
+    public Student updateViaPost(@PathVariable int id,
+                                @RequestBody Student student) {
         return service.update(id, student);
     }
 
-    // DELETE VIA POST (Yêu cầu 2)
+    // ================== DELETE VIA POST ==================
     @PostMapping("/delete/{id}")
-    public java.util.HashMap<String, Object> deleteViaPost(@PathVariable UUID id) {
+    public HashMap<String, Object> deleteViaPost(@PathVariable int id) {
         service.delete(id);
-        java.util.HashMap<String, Object> response = new java.util.HashMap<>();
-        response.put("success", true);
-        response.put("message", "Xóa thành công");
-        return response;
-    }
 
+        HashMap<String, Object> res = new HashMap<>();
+        res.put("success", true);
+        res.put("message", "Xóa thành công");
+
+        return res;
+    }
 }

@@ -1,14 +1,11 @@
 package com.example.schoolmanager.respository;
 
-import java.util.UUID;
-
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.schoolmanager.entity.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.schoolmanager.model.Student;
-
-public interface StudentRepository extends JpaRepository<Student, UUID> {
+public interface StudentRepository extends JpaRepository<Student, Integer> {
 
     Page<Student> findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
             String name,

@@ -1,13 +1,10 @@
 package com.example.schoolmanager.service;
 import java.util.List;
-import java.util.UUID;
-
+import com.example.schoolmanager.entity.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import com.example.schoolmanager.model.Student;
 import com.example.schoolmanager.respository.StudentRepository;
 
 @Service
@@ -23,26 +20,26 @@ public class StudentService {
         return repo.findAll();
     }
 
-    public Student getById(UUID id) {
+    public Student getById(int id) {
         return repo.findById(id).orElse(null);
     }
 
     public Student create(Student student) {
-        return repo.save(student);   // UUID tự sinh ở đây
+        return repo.save(student);
     }
 
-    public Student update(UUID id, Student student) {
-        Student old = getById(id);
-        if (old == null) return null;
-
-        old.setName(student.getName());
-        old.setEmail(student.getEmail());
-        old.setGender(student.getGender());
-
-        return repo.save(old);
+    public Student update(int id, Student student) {
+        Student s = repo.findById(id).orElse(null);
+        if (s != null) {
+            s.setName(student.getName());
+            s.setAge(student.getAge());
+            s.setEmail(student.getEmail());
+            return repo.save(s);
+        }
+        return null;
     }
 
-    public void delete(UUID id) {
+    public void delete(int id) {
         repo.deleteById(id);
     }
 
@@ -62,5 +59,10 @@ public class StudentService {
             return repo.findAll(pageable);
         }
         return repo.findByNameContainingIgnoreCase(n, pageable);
+    }
+
+    public com.example.schoolmanager.controller.Student create(com.example.schoolmanager.controller.Student student) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'create'");
     }
 }
